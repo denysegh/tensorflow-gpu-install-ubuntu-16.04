@@ -1,0 +1,22 @@
+Ref: https://github.com/denysegh/tensorflow-gpu-install-ubuntu-16.04
+
+1. After step 3 "install cuda toolkit (MAKE SURE TO SELECT N TO INSTALL NVIDIA DRIVERS)", get following messages on the terminal:
+
+Please make sure that
+ -   PATH includes /usr/local/cuda-8.0/bin
+ -   LD_LIBRARY_PATH includes /usr/local/cuda-8.0/lib64, or, add /usr/local/cuda-8.0/lib64 to /etc/ld.so.conf and run ldconfig as root
+
+Solutions,
+ - PATH=$PATH:/usr/local/cuda-8.0/bin
+ - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-8.0/lib64
+ 
+2.When typing "import tensorflow" in Python, get "ImportError: libcudnn.so.5: cannot open shared object file: No such file or directory"
+Solution,
+- go to /usr/local/cuda/lib64, type "sudo ln -s libcudnn.so.6 libcudnn.so.5" to alias libcudnn.so.5 to libcudnn.so.6
+- Then doubl checking by typing "ll libcudnn*" and get
+  -rwxr-xr-x 1 root root 154322864 Feb  6 11:50 libcudnn.so*
+  lrwxrwxrwx 1 root root        13 Feb  6 13:53 libcudnn.so.5 -> libcudnn.so.6*
+  -rwxr-xr-x 1 root root 154322864 Feb  6 11:50 libcudnn.so.6*
+  -rwxr-xr-x 1 root root 154322864 Feb  6 11:50 libcudnn.so.6.0.21*
+  -rw-r--r-- 1 root root 143843808 Feb  6 11:50 libcudnn_static.a
+- Then retype "import tensorflow"
